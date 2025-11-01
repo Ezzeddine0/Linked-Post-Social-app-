@@ -1,0 +1,151 @@
+<section class="container bg-main-light shadow show p-5 rounded">
+  <h2 class="mb-4">Register</h2>
+  <div>
+    <form action="" [formGroup]="registerForm" (submit)="signupSubmit()">
+      <div class="my-3">
+        <label for="name">Full Name:</label>
+        <input
+          class="form-control"
+          id="name"
+          name="name"
+          formControlName="name"
+          type="text"
+          [ngClass]="{
+            'is-valid':
+              !registerForm.get('name')?.errors &&
+              (registerForm.get('name')?.touched ||
+                registerForm.get('name')?.dirty),
+            'is-invalid':
+              registerForm.get('name')?.errors &&
+              (registerForm.get('name')?.touched ||
+                registerForm.get('name')?.dirty)
+          }"
+        />
+        @if (registerForm.get("name")?.errors &&
+        (registerForm.get("name")?.touched || registerForm.get("name")?.dirty))
+        {
+        <p class="alert alert-danger">Name must be between 3 and 15 char</p>
+        }
+      </div>
+      <div class="my-3">
+        <label for="email">Email Addres:</label>
+        <input
+          class="form-control"
+          id="email"
+          name="email"
+          formControlName="email"
+          type="email"
+          [ngClass]="{
+            'is-valid':
+              !registerForm.get('email')?.errors &&
+              (registerForm.get('email')?.touched ||
+                registerForm.get('email')?.dirty),
+            'is-invalid':
+              registerForm.get('email')?.errors &&
+              (registerForm.get('email')?.touched ||
+                registerForm.get('email')?.dirty)
+          }"
+        />
+        @if (registerForm.get("email")?.errors &&
+        (registerForm.get("email")?.touched ||
+        registerForm.get("email")?.dirty)) {
+        <p class="alert alert-danger">Enter a valid Email</p>
+        }
+      </div>
+      <div class="my-3">
+        <label for="password">Password:</label>
+        <input
+          class="form-control"
+          id="password"
+          name="password"
+          formControlName="password"
+          type="password"
+          [ngClass]="{
+            'is-valid':
+              !registerForm.get('password')?.errors &&
+              (registerForm.get('password')?.touched ||
+                registerForm.get('password')?.dirty),
+            'is-invalid':
+              registerForm.get('password')?.errors &&
+              (registerForm.get('password')?.touched ||
+                registerForm.get('password')?.dirty)
+          }"
+        />
+        @if (registerForm.get("password")?.errors &&
+        (registerForm.get("password")?.touched ||
+        registerForm.get("password")?.dirty)) {
+        <p class="alert alert-danger">Enter a strong Password</p>
+        }
+      </div>
+      <div class="my-3">
+        <label for="rePassword">Confirm Password:</label>
+        <input
+          class="form-control"
+          id="rePassword"
+          name="rePassword"
+          formControlName="rePassword"
+          type="password"
+        />
+        @if (registerForm.getError("mismatch")&&
+        registerForm.get("rePassword")?.touched) {
+        <div class="alert alert-danger">
+          <p>Password is not matched!</p>
+        </div>
+        }
+      </div>
+      <div class="my-3">
+        <label for="dateOfBirth">Date of Birth:</label>
+        <input
+          class="form-control"
+          id="dateOfBirth"
+          name="dateOfBirth"
+          formControlName="dateOfBirth"
+          type="date"
+          [ngClass]="{
+            'is-valid':
+              !registerForm.get('dateOfBirth')?.errors &&
+              (registerForm.get('dateOfBirth')?.touched ||
+                registerForm.get('dateOfBirth')?.dirty),
+            'is-invalid':
+              registerForm.get('dateOfBirth')?.errors &&
+              (registerForm.get('dateOfBirth')?.touched ||
+                registerForm.get('dateOfBirth')?.dirty)
+          }"
+        />
+      </div>
+      <div class="my-3">
+        <label for="gender">Gender:</label>
+        <select
+          class="form-select"
+          id="gender"
+          name="gender"
+          formControlName="gender"
+          type="gender"
+          [ngClass]="{
+            'is-valid':
+              !registerForm.get('gender')?.errors &&
+              (registerForm.get('gender')?.touched ||
+                registerForm.get('gender')?.dirty),
+            'is-invalid':
+              registerForm.get('gender')?.errors &&
+              (registerForm.get('gender')?.touched ||
+                registerForm.get('gender')?.dirty)
+          }"
+        >
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      @if (errorMessage) {
+      <p class="alert alert-danger">{{ errorMessage }}</p>
+      }
+      <button [disabled]="isLoading" type="submit" class="btn-main w-100 fs-4">
+        Sign up @if (isLoading) {<i class="fa-solid fa-circle-notch fa-spin"></i
+        >}
+      </button>
+      <p class="mt-3 alert-link text-main cr registerbutt" routerLink="/login">
+        have an account? Sign in
+      </p>
+    </form>
+  </div>
+</section>

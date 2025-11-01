@@ -1,0 +1,60 @@
+input {
+  border-color: rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 1000px) {
+  .w-md-100 {
+    width: 100% !important;
+  }
+}
+
+.postsBut {
+  border: none rgba(0, 0, 0, 0.314);
+  color: white;
+  background-color: var(--main-color);
+}
+.closeBut {
+  border: solid rgba(0, 0, 0, 0.314);
+  color: black;
+  background-color: transparent;
+}
+
+.bgeee {
+  background-color: #eee;
+}
+
+.custom-modal .modal-dialog {
+  width: 90% !important;
+  max-width: 90%;
+}
+
+@media (min-width: 992px) {
+  .custom-modal .modal-dialog {
+    width: 50% !important;
+    max-width: 50%;
+  }
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type="file"] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.uploadSpan {
+  height: 300px;
+}

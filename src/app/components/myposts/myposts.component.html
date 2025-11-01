@@ -1,0 +1,100 @@
+<div class="w-50 w-md-100 mx-auto bg-light p-5 border mb-4">
+  <input
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#exampleModal"
+    data-bs-whatever="@mdo"
+    (click)="selectedPostId = ''"
+    class="w-100 p-2 rounded-pill"
+    type="text"
+    placeholder="what's on your mind, {{ userData.name }}?"
+  />
+</div>
+
+<!-- 🟨 Loop through user's posts -->
+@for (item of posts; track item._id) {
+<article class="w-50 w-md-100 mx-auto bg-light p-5 border mb-4 rounded">
+  <div class="d-flex flex-column gap-3">
+    <!-- 🧍 User info + dropdown -->
+    <div class="d-flex align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <img
+          [src]="item.user.photo"
+          width="50"
+          height="50"
+          [alt]="item.user.name"
+          class="rounded-circle"
+        />
+        <div>
+          <p class="fw-bolder mb-0">{{ item.user.name }}</p>
+          <small class="text-muted">{{ item.createdAt | date }}</small>
+        </div>
+      </div>
+
+      <!-- Dropdown -->
+      <div class="dropdown align-self-end text-end">
+        <button
+          class="btn"
+          type="button"
+          id="dropdownMenuButton"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <p class="h2 fw-bold m-0">...</p>
+        </button>
+        <ul
+          class="dropdown-menu dropdown-menu-end"
+          aria-labelledby="dropdownMenuButton"
+          style="width: auto; min-width: fit-content"
+        >
+          <li>
+            <button
+              class="dropdown-item text-main text-center fw-bold"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="selectedPostId = item._id"
+            >
+              Edit
+            </button>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+
+          <li>
+            <button
+              (click)="deletePost(item._id)"
+              class="dropdown-item text-danger fw-bold"
+            >
+              Delete
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 📝 Post content -->
+    @if (item.body != 'undefined') {
+    <p class="fw-bold">{{ item.body }}</p>
+    }
+
+    <!-- 🖼️ Post image -->
+    @if (item.image) {
+    <img [src]="item.image" class="w-100 rounded" alt="Post image" />
+    }
+
+    <!-- 💬 Show comments -->
+    <button #showComments class="btn commentsBut fw-bold mt-3">
+      Show Comments
+    </button>
+
+    @defer (on interaction(showComments)) {
+    <app-comments [postId]="item._id"></app-comments>
+    } @loading {
+    <h5 class="text-center h5 text-muted">Loading ....</h5>
+    }
+  </div>
+</article>
+}
+
+<!-- 🟩 Single shared modal (Create/Edit Post) -->
+<app-posts [postId]="selectedPostId" (postSaved)="showMyPosts()"></app-posts>

@@ -1,0 +1,79 @@
+<div
+  class="modal fade custom-modal"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title h3" id="exampleModalLabel">Add new Post</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group mb-2">
+            <textarea
+              [(ngModel)]="content"
+              name="content"
+              class="form-control"
+              id="body"
+              placeholder="Write your thoughts here..."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <span
+              class="border btn btn-default btn-file w-100 d-flex flex-column align-items-center justify-content-center uploadSpan position-relative"
+            >
+              <p class="mb-2">
+                <i class="fa-solid fa-cloud-arrow-up fa-2x"></i>
+              </p>
+              <p class="mb-0">
+                Click to upload <span class="text-muted">or drag and drop</span>
+              </p>
+              <input
+                type="file"
+                name="image"
+                id="image"
+                (change)="onFileSelected($event)"
+                class="position-absolute top-0 start-0 w-100 h-100 opacity-0"
+              />
+            </span>
+
+            <!-- 👇 show file name -->
+            @if (fileName) {
+            <p class="mt-2 text-success fw-bold">
+              Selected file: {{ fileName }}
+            </p>
+            }
+          </div>
+
+          <div class="modal-footer">
+            <button
+              #closeBtn
+              type="button"
+              class="closeBut px-3 py-2 me-3 rounded"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              (click)="onSubmit()"
+              type="submit"
+              class="postsBut px-3 py-2 rounded"
+            >
+              @if(postId === "") { Post } @else{ Edit }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

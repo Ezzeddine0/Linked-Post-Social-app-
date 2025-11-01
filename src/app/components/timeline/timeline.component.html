@@ -1,0 +1,66 @@
+<div
+  class="timeline-container"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="150"
+  (scrolled)="onScrollDown()"
+>
+  <div class="w-50 w-md-100 mx-auto bg-light p-5 border mb-4">
+    <input
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      data-bs-whatever="@mdo"
+      class="w-100 p-2 rounded-pill"
+      type="text"
+      placeholder="what's on your mind, {{ userData.name }}?"
+    />
+  </div>
+
+  <!--  -->
+
+  <!-- Modal -->
+  <app-posts postId=""></app-posts>
+  <!--  -->
+  @for (item of posts; track item._id) {
+  <article class="w-50 w-md-100 mx-auto bg-light p-5 border mb-4">
+    <div class="d-flex flex-column gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <img
+          [src]="item.user.photo"
+          width="50"
+          height="50"
+          [alt]="item.user.name"
+          class="rounded-circle"
+        />
+        <div>
+          <p class="fw-bolder mb-0">{{ item.user.name }}</p>
+          <small class="text-muted">{{ item.createdAt | date }}</small>
+        </div>
+      </div>
+      <p class="fw-bold">{{ item.body }}</p>
+      <img [src]="item.image" class="w-100 rounded" alt="" />
+    </div>
+    <button #showComments class="btn commentsBut fw-bold mt-3">
+      Show Comments
+    </button>
+
+    <!-- comments -->
+    @defer (on interaction(showComments)) {
+    <app-comments [postId]="item._id"></app-comments>
+    } @loading {
+    <h5 class="text-center h5 text-muted">Loading ....</h5>
+    }
+    <!--  -->
+  </article>
+  } @if (loading) {
+  <div class="text-center py-3">
+    <p>Loading more posts...</p>
+  </div>
+  } @if (allLoaded) {
+  <div class="text-center text-muted py-3">
+    <p>No more posts to load.</p>
+  </div>
+  }
+</div>
