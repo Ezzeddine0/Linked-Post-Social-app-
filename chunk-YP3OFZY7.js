@@ -1,1 +1,0 @@
-import{$ as n,Ab as a,Hb as r,lb as o,mb as i}from"./chunk-SER4P5WU.js";var s=(()=>{class t{static{this.\u0275fac=function(e){return new(e||t)}}static{this.\u0275cmp=n({type:t,selectors:[["app-notfound"]],standalone:!0,features:[r],decls:2,vars:0,template:function(e,d){e&1&&(o(0,"p"),a(1,"notfound works!"),i())}})}}return t})();export{s as NotfoundComponent};
