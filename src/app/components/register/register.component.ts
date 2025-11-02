@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UsersService } from '../../core/services/users.service';
-import { NgClass } from '@angular/common';
+import { NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -19,6 +19,7 @@ import { NgClass } from '@angular/common';
     ReactiveFormsModule,
     NgClass,
     RouterLink,
+    TitleCasePipe,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -81,6 +82,38 @@ export class RegisterComponent {
           this.errorMessage = err.error.error;
         },
       });
+    } else this.registerForm.invalid;
+    {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+  }
+
+  passwordRules = {
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    special: false,
+  };
+
+  passwordStarted = false;
+
+  checkPasswordStrength() {
+    const password = this.registerForm.get('password')?.value || '';
+    this.passwordStarted = password.length > 0;
+    this.passwordRules.length = password.length >= 8;
+    this.passwordRules.uppercase = /[A-Z]/.test(password);
+    this.passwordRules.lowercase = /[a-z]/.test(password);
+    this.passwordRules.number = /[0-9]/.test(password);
+    this.passwordRules.special = /[#?!@$%^&*-]/.test(password);
+
+    // update validity dynamically
+    const allValid = Object.values(this.passwordRules).every(Boolean);
+    if (allValid) {
+      this.registerForm.get('password')?.setErrors(null);
+    } else {
+      this.registerForm.get('password')?.setErrors({ weak: true });
     }
   }
 }

@@ -60,6 +60,7 @@
           name="password"
           formControlName="password"
           type="password"
+          (input)="checkPasswordStrength()"
           [ngClass]="{
             'is-valid':
               !registerForm.get('password')?.errors &&
@@ -71,12 +72,76 @@
                 registerForm.get('password')?.dirty)
           }"
         />
-        @if (registerForm.get("password")?.errors &&
-        (registerForm.get("password")?.touched ||
-        registerForm.get("password")?.dirty)) {
-        <p class="alert alert-danger">Enter a strong Password</p>
+
+        <!-- Show only when typing -->
+        @if (passwordStarted) {
+        <ul class="list-unstyled mt-4">
+          <p>Password must contain:</p>
+          <li
+            class="ms-4"
+            [class.text-success]="passwordRules.length"
+            [class.text-danger]="!passwordRules.length"
+          >
+            <i
+              class="fa"
+              [class.fa-check]="passwordRules.length"
+              [class.fa-xmark]="!passwordRules.length"
+            ></i>
+            At least 8 characters
+          </li>
+          <li
+            class="ms-4"
+            [class.text-success]="passwordRules.uppercase"
+            [class.text-danger]="!passwordRules.uppercase"
+          >
+            <i
+              class="fa"
+              [class.fa-check]="passwordRules.uppercase"
+              [class.fa-xmark]="!passwordRules.uppercase"
+            ></i>
+            One uppercase letter
+          </li>
+          <li
+            class="ms-4"
+            [class.text-success]="passwordRules.lowercase"
+            [class.text-danger]="!passwordRules.lowercase"
+          >
+            <i
+              class="fa"
+              [class.fa-check]="passwordRules.lowercase"
+              [class.fa-xmark]="!passwordRules.lowercase"
+            ></i>
+            One lowercase letter
+          </li>
+
+          <li
+            class="ms-4"
+            [class.text-success]="passwordRules.number"
+            [class.text-danger]="!passwordRules.number"
+          >
+            <i
+              class="fa"
+              [class.fa-check]="passwordRules.number"
+              [class.fa-xmark]="!passwordRules.number"
+            ></i>
+            One number
+          </li>
+          <li
+            class="ms-4"
+            [class.text-success]="passwordRules.special"
+            [class.text-danger]="!passwordRules.special"
+          >
+            <i
+              class="fa"
+              [class.fa-check]="passwordRules.special"
+              [class.fa-xmark]="!passwordRules.special"
+            ></i>
+            One special character
+          </li>
+        </ul>
         }
       </div>
+
       <div class="my-3">
         <label for="rePassword">Confirm Password:</label>
         <input
@@ -114,28 +179,38 @@
         />
       </div>
       <div class="my-3">
-        <label for="gender">Gender:</label>
-        <select
-          class="form-select"
-          id="gender"
-          name="gender"
-          formControlName="gender"
-          type="gender"
-          [ngClass]="{
-            'is-valid':
-              !registerForm.get('gender')?.errors &&
-              (registerForm.get('gender')?.touched ||
-                registerForm.get('gender')?.dirty),
-            'is-invalid':
-              registerForm.get('gender')?.errors &&
-              (registerForm.get('gender')?.touched ||
-                registerForm.get('gender')?.dirty)
-          }"
-        >
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
+        <label class="d-block mb-2 fw-semibold">Gender:</label>
+
+        @for (option of ['male', 'female']; track option) {
+        <div class="form-check form-check-inline text-black">
+          <input
+            class="form-check-input"
+            type="radio"
+            id="gender-{{ option }}"
+            name="gender"
+            [value]="option"
+            formControlName="gender"
+            [ngClass]="{
+              'is-valid':
+                !registerForm.get('gender')?.errors &&
+                (registerForm.get('gender')?.touched ||
+                  registerForm.get('gender')?.dirty),
+              'is-invalid':
+                registerForm.get('gender')?.errors &&
+                (registerForm.get('gender')?.touched ||
+                  registerForm.get('gender')?.dirty)
+            }"
+          />
+          <label class="form-check-label" for="gender-{{ option }}">
+            {{ option | titlecase }}
+          </label>
+        </div>
+        } @if (registerForm.get('gender')?.invalid &&
+        registerForm.get('gender')?.touched) {
+        <div class="invalid-feedback d-block">Please select your gender.</div>
+        }
       </div>
+
       @if (errorMessage) {
       <p class="alert alert-danger">{{ errorMessage }}</p>
       }
